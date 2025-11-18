@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cars - CarRental</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .car-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        .car-image {
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="bi bi-car-front"></i> Available Cars</h1>
+            <div>
+                <select class="form-select d-inline-block w-auto">
+                    <option>All Brands</option>
+                    <option>Toyota</option>
+                    <option>Honda</option>
+                    <option>Ford</option>
+                    <option>BMW</option>
+                </select>
+                <button class="btn btn-outline-secondary ms-2">
+                    <i class="bi bi-funnel"></i> Filter
+                </button>
+            </div>
+        </div>
+
+        <div class="alert alert-info" role="alert">
+            <i class="bi bi-info-circle"></i> Showing all available cars. Click on any car to view details.
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-4" th:each="car : ${cars}">
+                <div class="card car-card border-0 shadow">
+                    <img th:src="${car.image}"
+                              class="card-img-top car-image" alt="Car Image">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0" th:text="${car.brand + ' ' + car.model}">Car Brand Model</h5>
+                            <span class="badge" th:classappend="${car.available} ? 'bg-success' : 'bg-danger'"
+                                  th:text="${car.available} ? 'Available' : 'Unavailable'">Available</span>
+                        </div>
+                        <p class="text-muted mb-2">
+                            <i class="bi bi-calendar"></i> Year: <span th:text="${car.year}">2023</span>
+                        </p>
+                        <p class="card-text">
+                            <span class="display-6 text-primary" th:text="'$' + ${car.pricePerDay}">$50</span>
+                            <span class="text-muted">/day</span>
+                        </p>
+                        <div class="d-grid gap-2">
+                            <a th:href="@{'/cars/' + ${car.id}}" class="btn btn-primary">
+                                <i class="bi bi-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments - CarRental</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="container my-5">
+        <h1 class="mb-4"><i class="bi bi-credit-card"></i> Payment History</h1>
+
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2">Total Paid</h6>
+                        <h3 class="mb-0">$1,250</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2">Completed</h6>
+                        <h3 class="mb-0">8</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2">Pending</h6>
+                        <h3 class="mb-0">2</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-danger text-white">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2">Failed</h6>
+                        <h3 class="mb-0">0</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Recent Payments</h5>
+                    <button class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Date</th>
+                                <th>Rental</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="payment : ${payments}">
+                                <td th:text="${payment.createdAt}">2024-01-15</td>
+                                <td th:text="'Rental #' + ${payment.rentalId}">Rental #123</td>
+                                <td class="fw-bold" th:text="'$' + ${payment.amount}">$225.00</td>
+                                <td>
+                                    <span class="badge bg-secondary" th:text="${payment.method}">CREDIT_CARD</span>
+                                </td>
+                                <td>
+                                    <span class="badge" 
+                                          th:classappend="${payment.status == 'COMPLETED'} ? 'bg-success' : (${payment.status == 'PENDING'} ? 'bg-warning' : 'bg-danger')"
+                                          th:text="${payment.status}">COMPLETED</span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-receipt"></i> Receipt
+                                    </button>
+                                </td>
+                            </tr>
+                            <!-- Placeholder payments -->
+                            <tr th:if="${payments == null or payments.isEmpty()}">
+                                <td>2024-01-15</td>
+                                <td>Rental #123</td>
+                                <td class="fw-bold">$225.00</td>
+                                <td><span class="badge bg-secondary">CREDIT_CARD</span></td>
+                                <td><span class="badge bg-success">COMPLETED</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-receipt"></i> Receipt
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr th:if="${payments == null or payments.isEmpty()}">
+                                <td>2023-12-10</td>
+                                <td>Rental #98</td>
+                                <td class="fw-bold">$200.00</td>
+                                <td><span class="badge bg-secondary">DEBIT_CARD</span></td>
+                                <td><span class="badge bg-success">COMPLETED</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-receipt"></i> Receipt
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr th:if="${payments == null or payments.isEmpty()}">
+                                <td>2024-01-20</td>
+                                <td>Rental #145</td>
+                                <td class="fw-bold">$180.00</td>
+                                <td><span class="badge bg-secondary">PAYPAL</span></td>
+                                <td><span class="badge bg-warning">PENDING</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" disabled>
+                                        <i class="bi bi-receipt"></i> Receipt
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-info mt-4" th:if="${payments == null or payments.isEmpty()}">
+            <i class="bi bi-info-circle"></i> No payments found. Your payment history will appear here.
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

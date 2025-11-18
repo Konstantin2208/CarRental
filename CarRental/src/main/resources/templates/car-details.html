@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Details - CarRental</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card shadow-sm mb-4">
+                    <img th:src="${car.get().image}"
+                         class="card-img-top" alt="Car Image" >
+                    <div class="card-body">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-3">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item"><a href="/cars">Cars</a></li>
+                                <li class="breadcrumb-item active" aria-current="page" th:text="${car.get().brand + ' ' + car.get().model}">Car Details</li>
+                            </ol>
+                        </nav>
+                        <h1 class="display-5 mb-3" th:text="${car.get().brand + ' ' + car.get().model}">Car Brand Model</h1>
+                        <p class="lead text-muted mb-4">Premium vehicle for your comfort and style</p>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <h6><i class="bi bi-calendar text-primary"></i> Year</h6>
+                                <p class="fs-5" th:text="${car.get().year}">2023</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h6><i class="bi bi-speedometer2 text-primary"></i> Transmission</h6>
+                                <p class="fs-5">Automatic</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h6><i class="bi bi-people text-primary"></i> Seats</h6>
+                                <p class="fs-5">5</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h6><i class="bi bi-fuel-pump text-primary"></i> Fuel Type</h6>
+                                <p class="fs-5">Petrol</p>
+                            </div>
+                        </div>
+
+                        <h5 class="mb-3">Features</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> Air Conditioning</li>
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> Bluetooth Connectivity</li>
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> GPS Navigation</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> Leather Seats</li>
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> Backup Camera</li>
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> USB Charger</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-lg sticky-top" style="top: 20px;">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <h3 class="display-6 text-primary" th:text="'$' + ${car.get().pricePerDay}">$50</h3>
+                            <p class="text-muted">per day</p>
+                        </div>
+
+                        <div class="mb-4">
+                            <span class="badge" 
+                                  th:classappend="${car.get().available} ? 'bg-success' : 'bg-danger'"
+                                  th:text="${car.get().available} ? 'Available' : 'Unavailable'"
+                                  style="font-size: 1rem;">Available</span>
+                        </div>
+
+                        <form th:action="@{/rental-form/{carId}(carId=${car.get().id})}" method="get">
+                            <button type="submit" class="btn btn-primary btn-lg w-100 mb-3"
+                                    th:disabled="${!car.get().available}">
+                                <i class="bi bi-calendar-check"></i> Book Now
+                            </button>
+                        </form>
+
+                        <div class="border-top pt-3 mt-3">
+                            <h6 class="mb-3">Rental Information</h6>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="bi bi-shield-check text-success"></i> Fully Insured
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-repeat text-info"></i> Free Cancellation
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-truck text-warning"></i> Free Delivery (in city)
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="alert alert-light border mt-3" role="alert">
+                            <small>
+                                <i class="bi bi-info-circle"></i> 
+                                Minimum rental period: 1 day
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

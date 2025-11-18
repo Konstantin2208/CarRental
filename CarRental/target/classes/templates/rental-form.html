@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Rental - CarRental</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .rental-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-8 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="bi bi-calendar-check"></i> Create Rental</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/rental-form/{carId}(carId=${car.id})}" method="post" th:object="${rentalRequest}">
+
+
+                        <input type="hidden" th:field="*{carId}"  />
+
+
+
+                            <div class="mb-4">
+                                <label for="startDate" class="form-label">
+                                    <i class="bi bi-calendar-event"></i> Start Date
+                                </label>
+                                <input th:field="*{startDate}" type="date" class="form-control form-control-lg"
+                                       id="startDate" name="startDate" required>
+                                <div class="form-text">Select when you want to start your rental</div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="endDate" class="form-label">
+                                    <i class="bi bi-calendar-x"></i> End Date
+                                </label>
+                                <input th:field="*{endDate}" type="date" class="form-control form-control-lg"
+                                       id="endDate" name="endDate" required>
+                                <div class="form-text">Select when you want to return the car</div>
+                            </div>
+
+
+                            <div class="alert alert-info" role="alert">
+                                <i class="bi bi-info-circle"></i> 
+                                <strong>Important:</strong> Please review your rental details before submitting. 
+                                You will receive a confirmation email once your rental is processed.
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <a href="/cars" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left"></i> Back to Cars
+                                </a>
+                                <button href="/payment" type="submit" class="btn btn-primary">Continue to Payment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm rental-summary">
+                    <div class="card-body text-white">
+                        <h5 class="mb-4">Rental Summary</h5>
+                        
+                        <div class="mb-3">
+                            <small class="text-white-50">Car</small>
+                            <p class="mb-0" th:text="${car.brand + ' ' + car.model}">Toyota Camry</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-white-50">Year</small>
+                            <p class="mb-0" th:text="${car.year}">2023</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-white-50">Price per day</small>
+                            <p class="mb-0" th:text="'$' + ${car.pricePerDay}">$45</p>
+                        </div>
+
+                        <hr class="bg-white">
+
+                        <div class="mb-3">
+                            <small class="text-white-50">Subtotal</small>
+                            <h4 class="mb-0">$0.00</h4>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-white-50">Service Fee</small>
+                            <p class="mb-0">$10.00</p>
+                        </div>
+
+                        <hr class="bg-white">
+
+                        <div>
+                            <small class="text-white-50">Total (estimated)</small>
+                            <h3 class="mb-0" id="totalPrice">$0.00</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mt-4">
+                    <div class="card-body">
+                        <h6 class="mb-3"><i class="bi bi-shield-check"></i> Rental Policies</h6>
+                        <ul class="list-unstyled small">
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle text-success"></i> Minimum age: 25 years
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle text-success"></i> Valid driver's license required
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle text-success"></i> Free cancellation up to 24h before
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle text-success"></i> Insurance included
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple date validation
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        
+        const today = new Date().toISOString().split('T')[0];
+        startDateInput.setAttribute('min', today);
+        endDateInput.setAttribute('min', today);
+
+        startDateInput.addEventListener('change', function() {
+            if (this.value) {
+                endDateInput.setAttribute('min', this.value);
+            }
+        });
+    </script>
+</body>
+</html>
