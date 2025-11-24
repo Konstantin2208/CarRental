@@ -39,6 +39,15 @@ public class CarService {
 
         carRepo.save(car);
     }
+    public  void update(CarRequest carRequest, Car car) {
+        car.setBrand(carRequest.getBrand());
+        car.setModel(carRequest.getModel());
+        car.setYear(carRequest.getYear());
+        car.setPricePerDay(carRequest.getPricePerDay());
+        car.setAvailable(carRequest.isAvailable());
+        car.setImage(carRequest.getImage());
+        carRepo.save(car);
+    }
 
     public void deleteCar(UUID id) {
        carRepo.deleteById(id);

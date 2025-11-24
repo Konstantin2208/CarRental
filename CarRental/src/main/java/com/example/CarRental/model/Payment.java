@@ -19,7 +19,8 @@ public class Payment {
 
     @Column(nullable = false)
     private UUID rentalId;
-
+    @Column(nullable = false)
+    private UUID userId;
     @Column(nullable = false)
     private double amount;
     @Enumerated(EnumType.STRING)

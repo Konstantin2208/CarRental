@@ -19,6 +19,6 @@ public class RegisterRequest {
     @Email
     private String email;
     @NotBlank
-    @Pattern(regexp = "\\d{6}")
+    @Pattern(regexp = "^.{6,}$")
     private String password;
 }

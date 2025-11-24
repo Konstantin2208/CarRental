@@ -69,13 +69,7 @@ public class AdminController {
 
         Car car = carRepo.findById(carRequest.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Car not found"));
-        car.setBrand(carRequest.getBrand());
-        car.setModel(carRequest.getModel());
-        car.setYear(carRequest.getYear());
-        car.setPricePerDay(carRequest.getPricePerDay());
-        car.setAvailable(carRequest.isAvailable());
-        car.setImage(carRequest.getImage());
-        carRepo.save(car);
+        carService.update(carRequest,car);
 
         return "redirect:/admin";
     }

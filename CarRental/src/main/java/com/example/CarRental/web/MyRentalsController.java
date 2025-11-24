@@ -20,7 +20,7 @@ public class MyRentalsController {
     private final RentalRepo rentalRepo;
 
 
-    public MyRentalsController(RentalRepo rentalRepo, CarRepo carRepo) {
+    public MyRentalsController(RentalRepo rentalRepo) {
         this.rentalRepo = rentalRepo;
 
     }

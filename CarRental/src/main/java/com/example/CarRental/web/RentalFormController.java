@@ -1,5 +1,6 @@
 package com.example.CarRental.web;
 
+import com.example.CarRental.feign.PriceClient;
 import com.example.CarRental.model.Car;
 import com.example.CarRental.security.UserData;
 import com.example.CarRental.service.CarService;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -21,10 +21,12 @@ public class RentalFormController {
     private final CarService carService;
     private final RentalService rentalService;
 
+
     @Autowired
     public RentalFormController(CarService carService, RentalService rentalService) {
         this.carService = carService;
         this.rentalService = rentalService;
+
     }
 
 
