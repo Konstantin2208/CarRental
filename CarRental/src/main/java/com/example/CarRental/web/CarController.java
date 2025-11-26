@@ -36,7 +36,7 @@ public class CarController {
     }
     @GetMapping("/{id}")
     public ModelAndView getCarDetails(@PathVariable UUID id){
-        Optional<Car> car= carService.getCarById(id);
+        Car car= carService.getCarById(id);
         ModelAndView modelAndView= new ModelAndView("car-details");
         modelAndView.addObject("car", car);
         return modelAndView;

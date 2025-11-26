@@ -14,23 +14,23 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="card shadow-sm mb-4">
-                    <img th:src="${car.get().image}"
+                    <img th:src="${car.image}"
                          class="card-img-top" alt="Car Image" >
                     <div class="card-body">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-3">
                                 <li class="breadcrumb-item"><a href="/">Home</a></li>
                                 <li class="breadcrumb-item"><a href="/cars">Cars</a></li>
-                                <li class="breadcrumb-item active" aria-current="page" th:text="${car.get().brand + ' ' + car.get().model}">Car Details</li>
+                                <li class="breadcrumb-item active" aria-current="page" th:text="${car.brand + ' ' + car.model}">Car Details</li>
                             </ol>
                         </nav>
-                        <h1 class="display-5 mb-3" th:text="${car.get().brand + ' ' + car.get().model}">Car Brand Model</h1>
+                        <h1 class="display-5 mb-3" th:text="${car.brand + ' ' + car.model}">Car Brand Model</h1>
                         <p class="lead text-muted mb-4">Premium vehicle for your comfort and style</p>
                         
                         <div class="row mb-4">
                             <div class="col-md-6 mb-3">
                                 <h6><i class="bi bi-calendar text-primary"></i> Year</h6>
-                                <p class="fs-5" th:text="${car.get().year}">2023</p>
+                                <p class="fs-5" th:text="${car.year}">2023</p>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <h6><i class="bi bi-speedometer2 text-primary"></i> Transmission</h6>
@@ -71,20 +71,20 @@
                 <div class="card shadow-lg sticky-top" style="top: 20px;">
                     <div class="card-body">
                         <div class="mb-4">
-                            <h3 class="display-6 text-primary" th:text="'$' + ${car.get().pricePerDay}">$50</h3>
+                            <h3 class="display-6 text-primary" th:text="'$' + ${car.pricePerDay}">$50</h3>
                             <p class="text-muted">per day</p>
                         </div>
 
                         <div class="mb-4">
                             <span class="badge" 
-                                  th:classappend="${car.get().available} ? 'bg-success' : 'bg-danger'"
-                                  th:text="${car.get().available} ? 'Available' : 'Unavailable'"
+                                  th:classappend="${car.available} ? 'bg-success' : 'bg-danger'"
+                                  th:text="${car.available} ? 'Available' : 'Unavailable'"
                                   style="font-size: 1rem;">Available</span>
                         </div>
 
-                        <form th:action="@{/rental-form/{carId}(carId=${car.get().id})}" method="get">
+                        <form th:action="@{/rental-form/{carId}(carId=${car.id})}" method="get">
                             <button type="submit" class="btn btn-primary btn-lg w-100 mb-3"
-                                    th:disabled="${!car.get().available}">
+                                    th:disabled="${!car.available}">
                                 <i class="bi bi-calendar-check"></i> Book Now
                             </button>
                         </form>

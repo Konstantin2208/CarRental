@@ -1,5 +1,6 @@
 package com.example.CarRental.service;
 
+import com.example.CarRental.exception.NotFoundException;
 import com.example.CarRental.model.Rental;
 import com.example.CarRental.model.RentalStatus;
 import com.example.CarRental.repository.CarRepo;
@@ -15,19 +16,18 @@ import java.util.UUID;
 public class RentalService {
     private final RentalRepo rentalRepo;
     private final CarRepo carRepo;
-    private final PricingClientService pricingClientService;
+
 
     @Autowired
-    public RentalService(RentalRepo rentalRepo, CarRepo carRepo, PricingClientService pricingClientService) {
+    public RentalService(RentalRepo rentalRepo, CarRepo carRepo) {
         this.rentalRepo = rentalRepo;
         this.carRepo = carRepo;
-        this.pricingClientService = pricingClientService;
     }
 
     public UUID createRental(RentalRequest rentalRequest, UUID userId) {
         Rental rental = Rental.builder()
                 .car(carRepo.findById(rentalRequest.getCarId())
-                        .orElseThrow(() -> new RuntimeException("Car not found")))
+                        .orElseThrow(() -> new NotFoundException("Car not found")))
                 .userId(userId)
                 .startDate(rentalRequest.getStartDate())
                 .endDate(rentalRequest.getEndDate())
@@ -40,7 +40,7 @@ public class RentalService {
     }
 
 
-    public Optional<Rental> getRentalById(UUID rentalId) {
-       return rentalRepo.findById(rentalId);
+    public Rental getRentalById(UUID rentalId) {
+       return rentalRepo.findById(rentalId).orElseThrow(() -> new NotFoundException("Rental not found"));
     }
 }

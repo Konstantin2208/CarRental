@@ -13,11 +13,11 @@ public class PricingService {
 
     public PriceResponse calculate(PriceRequest request) {
         if ((request.getPricePerDay() == 0) || (request.getStartDate() == null) || (request.getEndDate() == null)) {
-            throw new IllegalArgumentException("pricePerDay, startDate and endDate are required");
+            throw new IllegalArgumentException("PricePerDay, startDate and endDate are required");
         }
         long days = ChronoUnit.DAYS.between(request.getStartDate(), request.getEndDate());
         if (days <= 0) {
-            throw new IllegalArgumentException("endDate must be after startDate");
+            throw new IllegalArgumentException("End date must be after Start date");
         }
         double subtotal = request.getPricePerDay() * days;
         double total = subtotal + serviceFee;

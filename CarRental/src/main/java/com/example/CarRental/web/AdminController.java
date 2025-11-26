@@ -42,17 +42,9 @@ public class AdminController {
 
     @GetMapping("/update/{id}")
     public ModelAndView showUpdateForm(@PathVariable UUID id) {
-        Car car = carRepo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid car Id: " + id));
+        Car car = carService.getCarById(id);
 
-        CarRequest carRequest = new CarRequest();
-        carRequest.setId(car.getId());
-        carRequest.setBrand(car.getBrand());
-        carRequest.setModel(car.getModel());
-        carRequest.setYear(car.getYear());
-        carRequest.setPricePerDay(car.getPricePerDay());
-        carRequest.setAvailable(car.isAvailable());
-        carRequest.setImage(car.getImage());
+        CarRequest carRequest = carService.getCarRequest(car);
 
         ModelAndView modelAndView = new ModelAndView("admin-cars");
         modelAndView.addObject("cars", carRepo.findAll());
@@ -61,14 +53,15 @@ public class AdminController {
         return modelAndView;
     }
 
+
+
     @PostMapping("/update")
     public String updateCar(@ModelAttribute("carRequest") CarRequest carRequest) {
         if (carRequest.getId() == null) {
             return "redirect:/admin";
         }
 
-        Car car = carRepo.findById(carRequest.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Car not found"));
+        Car car = carService.getCarById(carRequest.getId());
         carService.update(carRequest,car);
 
         return "redirect:/admin";

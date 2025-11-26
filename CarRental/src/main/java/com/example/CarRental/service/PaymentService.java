@@ -30,8 +30,7 @@ public class PaymentService {
     }
 
     public PriceResponse calculateRentalPriceDetailed(UUID rentalId) {
-        Rental rental = rentalService.getRentalById(rentalId)
-                .orElseThrow(() -> new IllegalArgumentException("Rental not found"));
+        Rental rental = rentalService.getRentalById(rentalId);
 
         PriceRequest request = new PriceRequest(
                 rental.getCar().getPricePerDay(),

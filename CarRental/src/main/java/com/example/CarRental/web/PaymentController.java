@@ -28,8 +28,7 @@ public class PaymentController {
     @GetMapping("/{rentalId}")
     public ModelAndView getPaymentPage(@PathVariable UUID rentalId) {
 
-        Rental rental = rentalService.getRentalById(rentalId)
-                .orElseThrow(() -> new IllegalArgumentException("Rental not found"));
+        Rental rental = rentalService.getRentalById(rentalId);
 
         PriceResponse priceResponse= paymentService.calculateRentalPriceDetailed(rentalId);
 
@@ -49,7 +48,7 @@ public class PaymentController {
                               @ModelAttribute PaymentRequest paymentRequest,@AuthenticationPrincipal UserData userData) {
 
         paymentRequest.setRentalId(rentalId);
-        Payment payment = paymentService.createPayment(paymentRequest,userData.getUserId());
+        paymentService.createPayment(paymentRequest, userData.getUserId());
 
         return "redirect:/my-rentals";
     }

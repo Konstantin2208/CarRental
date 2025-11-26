@@ -23,8 +23,9 @@ public class CarService {
         return carRepo.findAll();
     }
 
-    public Optional<Car> getCarById(UUID id) {
-        return carRepo.findById(id);
+    public Car getCarById(UUID id) {
+        return carRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid car Id: " + id));
     }
 
     public void save(CarRequest carRequest) {
@@ -47,6 +48,17 @@ public class CarService {
         car.setAvailable(carRequest.isAvailable());
         car.setImage(carRequest.getImage());
         carRepo.save(car);
+    }
+    public static CarRequest getCarRequest(Car car) {
+        CarRequest carRequest = new CarRequest();
+        carRequest.setId(car.getId());
+        carRequest.setBrand(car.getBrand());
+        carRequest.setModel(car.getModel());
+        carRequest.setYear(car.getYear());
+        carRequest.setPricePerDay(car.getPricePerDay());
+        carRequest.setAvailable(car.isAvailable());
+        carRequest.setImage(car.getImage());
+        return carRequest;
     }
 
     public void deleteCar(UUID id) {

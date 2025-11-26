@@ -35,8 +35,7 @@ public class RentalFormController {
     public ModelAndView getRentalForm(@PathVariable UUID carId) {
 
 
-        Car car = carService.getCarById(carId)
-                .orElseThrow(() -> new IllegalArgumentException("Car not found"));
+        Car car = carService.getCarById(carId);
 
         ModelAndView modelAndView = new ModelAndView("rental-form");
         modelAndView.addObject("rentalRequest", new RentalRequest());
