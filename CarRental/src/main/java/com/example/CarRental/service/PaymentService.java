@@ -38,15 +38,17 @@ public class PaymentService {
                 rental.getEndDate()
         );
 
-       PriceResponse priceResponse= PriceResponse.builder()
-               .days(priceClient.calculatePrice(request).getDays())
-               .pricePerDay(priceClient.calculatePrice(request).getPricePerDay())
-               .subtotal(priceClient.calculatePrice(request).getSubtotal())
-               .serviceFee(priceClient.calculatePrice(request).getServiceFee())
-               .total(priceClient.calculatePrice(request).getTotal())
-               .build();
+        PriceResponse clientResponse = priceClient.calculatePrice(request);
 
-       return priceResponse;
+        PriceResponse priceResponse = PriceResponse.builder()
+                .days(clientResponse.getDays())
+                .pricePerDay(clientResponse.getPricePerDay())
+                .subtotal(clientResponse.getSubtotal())
+                .serviceFee(clientResponse.getServiceFee())
+                .total(clientResponse.getTotal())
+                .build();
+
+        return priceResponse;
     }
 
 

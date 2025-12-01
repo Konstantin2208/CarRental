@@ -26,16 +26,26 @@ public class UserService implements UserDetailsService {
     }
 
     public void register(RegisterRequest registerRequest){
+        Role role;
+        if (userRepo.findAll().isEmpty()){
+             role = Role.ADMIN;
+        }
+        else {
+            role=Role.USER;
+        }
         User user= User.builder()
                 .username(registerRequest.getUsername())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .email(registerRequest.getEmail())
-                .role(Role.USER)
+                .role(role)
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
                 .build();
         userRepo.save(user);
     }
+
+
+
 
 
     @Override
