@@ -1,16 +1,15 @@
 package com.example.CarRental.web.dto;
 
 import com.example.CarRental.model.Rental;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
 public class PaymentRequest {
 

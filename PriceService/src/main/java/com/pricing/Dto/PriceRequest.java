@@ -10,8 +10,6 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-@Getter
-@Setter
 public class PriceRequest {
     private double pricePerDay;
     private LocalDate startDate;

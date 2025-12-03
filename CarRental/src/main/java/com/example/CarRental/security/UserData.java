@@ -4,6 +4,7 @@ import com.example.CarRental.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,8 +14,9 @@ import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
+@Getter
+@Setter
 public class UserData implements UserDetails {
-    @Getter
     private UUID userId;
     private String username;
     private String password;

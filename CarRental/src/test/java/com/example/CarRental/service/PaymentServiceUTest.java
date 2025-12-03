@@ -47,7 +47,7 @@ public class PaymentServiceUTest {
                 .endDate(LocalDate.of(2025, 12, 5))
                 .build();
 
-        PriceResponse mockPriceResponse = PriceResponse.builder()
+        PriceResponse priceResponse = PriceResponse.builder()
                 .days(4)
                 .pricePerDay(100)
                 .subtotal(400)
@@ -56,7 +56,7 @@ public class PaymentServiceUTest {
                 .build();
 
         when(rentalService.getRentalById(rentalId)).thenReturn(rental);
-        when(priceClient.calculatePrice(any(PriceRequest.class))).thenReturn(mockPriceResponse);
+        when(priceClient.calculatePrice(any(PriceRequest.class))).thenReturn(priceResponse);
 
         PriceResponse result = paymentService.calculateRentalPriceDetailed(rentalId);
 

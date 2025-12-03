@@ -1,5 +1,6 @@
 package com.example.CarRental.service;
 
+import com.example.CarRental.exception.NotFoundException;
 import com.example.CarRental.model.Role;
 import com.example.CarRental.model.User;
 import com.example.CarRental.repository.UserRepo;
@@ -9,12 +10,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import java.util.Collections;
+import java.util.Optional;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -70,5 +76,13 @@ public class UserServiceUTest {
         ));
 
     }
+    @Test
+    void loadUserByUsername_shouldThrowException_whenUserDoesNotExist() {
+        when(userRepo.findByUsername(anyString())).thenReturn(Optional.empty());
 
+        NotFoundException exception = assertThrows(NotFoundException.class,
+                () -> userService.loadUserByUsername("UnknownUser"));
+
+        assertEquals("User not found", exception.getMessage());
+    }
 }

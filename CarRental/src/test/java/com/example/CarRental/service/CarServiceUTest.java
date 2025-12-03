@@ -89,7 +89,7 @@ public class CarServiceUTest {
     }
     @Test
     void shouldUpdateCar() {
-        Car car = new Car();
+        Car car = new Car(UUID.randomUUID(), "BMW", "X5", 2020, 100.0,true,"image.png");
 
         CarRequest carRequest = CarRequest.builder()
                 .brand("NewBrand")
