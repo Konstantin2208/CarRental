@@ -4,6 +4,8 @@ import com.example.CarRental.model.Car;
 import com.example.CarRental.repository.CarRepo;
 import com.example.CarRental.web.dto.CarRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,16 +20,16 @@ public class CarService {
     public CarService(CarRepo carRepo) {
         this.carRepo = carRepo;
     }
-
+    @Cacheable(value = "cars")
     public List<Car> getAllCars() {
         return carRepo.findAll();
     }
-
+    @Cacheable(value = "carDetails", key = "#id")
     public Car getCarById(UUID id) {
         return carRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid car Id: " + id));
     }
-
+    @CacheEvict(value = "cars", allEntries = true)
     public void save(CarRequest carRequest) {
         Car car= Car.builder()
                 .brand(carRequest.getBrand())
@@ -40,6 +42,7 @@ public class CarService {
 
         carRepo.save(car);
     }
+    @CacheEvict(value = "carDetails", key = "#car.id")
     public  void update(CarRequest carRequest, Car car) {
         car.setBrand(carRequest.getBrand());
         car.setModel(carRequest.getModel());
